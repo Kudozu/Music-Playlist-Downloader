@@ -20,7 +20,7 @@ jobs:
           python-version: "3.12"
 
       - name: Dépendances
-        run: pip install -r requirements.txt imageio-ffmpeg pyinstaller pillow
+        run: pip install -r requirements.txt imageio-ffmpeg pyinstaller
 
       - name: Construction du .exe
         run: .\build.bat
@@ -40,9 +40,20 @@ jobs:
           if ($r.formats -notcontains "mp3") { throw "ffmpeg absent du .exe" }
           "OK : formats = $($r.formats -join ', ')"
 
+      - name: Version zip (Python, pour les PC qui bloquent l'exe)
+        shell: pwsh
+        run: |
+          $d = "zip\MusicPlaylistDownloader"
+          New-Item -ItemType Directory -Force $d | Out-Null
+          Copy-Item app.py, ytdlp_update.py, requirements.txt, Lancer.bat, icon.ico, README.md $d
+          Copy-Item -Recurse static $d
+          Compress-Archive -Path $d -DestinationPath dist\MusicPlaylistDownloader-Windows.zip
+
       - name: Publication
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/MusicPlaylistDownloader.exe
+          files: |
+            dist/MusicPlaylistDownloader.exe
+            dist/MusicPlaylistDownloader-Windows.zip
           body_path: .github/release-notes.md

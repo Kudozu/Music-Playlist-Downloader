@@ -4,6 +4,7 @@ import json
 import os
 import shutil
 import socket
+import subprocess
 import sys
 import threading
 import time
@@ -36,13 +37,19 @@ from mutagen.mp4 import MP4, MP4Cover  # noqa: E402
 
 
 def find_ffmpeg():
-    if shutil.which("ffmpeg"):
-        return shutil.which("ffmpeg")
+    candidates = [shutil.which("ffmpeg")]
     try:
         import imageio_ffmpeg
-        return imageio_ffmpeg.get_ffmpeg_exe()
+        candidates.append(imageio_ffmpeg.get_ffmpeg_exe())
     except Exception:
-        return None
+        pass
+    for exe in filter(None, candidates):
+        try:  # il peut exister mais être bloqué (ex. Contrôle intelligent des applications)
+            subprocess.run([exe, "-version"], capture_output=True, timeout=15, check=True)
+            return exe
+        except Exception:
+            continue
+    return None
 
 
 # Sans ffmpeg on télécharge le M4A natif de YouTube (pas de conversion possible)
@@ -192,6 +199,7 @@ def run_job(job: Job):
         opts = {
             "outtmpl": str(job.folder / "%(artist,uploader)s - %(title)s.%(ext)s"),
             "windowsfilenames": True,
+            "trim_file_name": 120,  # Windows refuse les chemins de plus de 260 caractères
             "quiet": True,
             "no_warnings": True,
             "noprogress": True,

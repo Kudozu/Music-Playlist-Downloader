@@ -1,10 +1,15 @@
 ## 💻 Sur ordinateur (Windows)
 
-1. Télécharge **`MusicPlaylistDownloader.exe`** ci-dessous.
-2. Double-clique dessus. Si Windows affiche « Windows a protégé votre ordinateur » : **Informations complémentaires → Exécuter quand même** (l'exe n'est pas signé).
-3. La page s'ouvre toute seule dans le navigateur. Si Windows demande l'accès réseau, coche **Réseaux privés** et accepte (c'est ce qui permet au téléphone de se connecter).
+**Option 1 : l'exe (le plus simple)**
+1. Télécharge **`MusicPlaylistDownloader.exe`** ci-dessous et double-clique dessus.
+2. Si Windows affiche « Windows a protégé votre ordinateur » : **Informations complémentaires → Exécuter quand même** (l'exe n'est pas signé).
+3. La page s'ouvre dans le navigateur. Si Windows demande l'accès réseau, coche **Réseaux privés** (c'est ce qui permet au téléphone de se connecter).
 
-Rien d'autre à installer : Python, yt-dlp et ffmpeg sont inclus, et yt-dlp se met à jour tout seul à chaque lancement.
+Tout est inclus (Python, yt-dlp, ffmpeg), et yt-dlp se met à jour tout seul.
+
+**Option 2 : si l'exe est bloqué** (« Une stratégie de contrôle d'application a bloqué ce fichier », c'est le Contrôle intelligent des applications de Windows 11)
+1. Télécharge **`MusicPlaylistDownloader-Windows.zip`**, clic droit → **Extraire tout**.
+2. Double-clique sur **`Lancer.bat`**. Python s'installe tout seul s'il manque. Le premier lancement prend quelques minutes, les suivants sont rapides.
 
 ## 📱 Sur téléphone
 

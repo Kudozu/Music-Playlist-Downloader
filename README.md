@@ -17,6 +17,8 @@ Télécharge toutes les musiques d'une playlist **YouTube Music** dans le dossie
 - Si Windows demande l'accès réseau : coche **Réseaux privés** (nécessaire pour le téléphone).
 - yt-dlp se met à jour tout seul à chaque lancement.
 
+**Si l'exe est bloqué** (« Une stratégie de contrôle d'application a bloqué ce fichier », à cause du Contrôle intelligent des applications de Windows 11) : prends plutôt **[MusicPlaylistDownloader-Windows.zip](https://github.com/0xim0/music-playlist-downloader/releases/latest/download/MusicPlaylistDownloader-Windows.zip)**, fais clic droit → *Extraire tout*, puis double-clique sur `Lancer.bat`. Python s'installe tout seul s'il manque.
+
 ### 📱 Téléphone
 
 **Avec le PC :** lance l'appli sur le PC et scanne le QR code en bas de la page (même Wi-Fi). Ensuite, menu ⋮ ou Partager → *Ajouter à l'écran d'accueil*. Le bouton *Tout en ZIP* enregistre les musiques sur le téléphone.
