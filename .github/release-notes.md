@@ -20,6 +20,6 @@ Les musiques arrivent dans le dossier choisi sur le PC ; le bouton **« Tout en 
 1. Installe **Termux** depuis [F-Droid](https://f-droid.org/packages/com.termux/) ou [GitHub](https://github.com/termux/termux-app/releases) (pas la version du Play Store, elle est obsolète).
 2. Ouvre Termux et colle :
    ```
-   curl -fsSL https://raw.githubusercontent.com/0xim0/music-playlist-downloader/main/android/install.sh | bash
+   curl -fsSL https://raw.githubusercontent.com/Kudozu/music-playlist-downloader/main/android/install.sh | bash
    ```
 3. Ensuite, pour lancer l'appli : tape `playlist` dans Termux. Les musiques vont dans le dossier **Music** du téléphone.

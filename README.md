@@ -11,13 +11,13 @@ Télécharge toutes les musiques d'une playlist **YouTube Music** dans le dossie
 
 ### 💻 Windows
 
-**[Télécharger MusicPlaylistDownloader.exe](https://github.com/0xim0/music-playlist-downloader/releases/latest/download/MusicPlaylistDownloader.exe)** puis double-clique dessus. C'est tout.
+**[Télécharger MusicPlaylistDownloader.exe](https://github.com/Kudozu/music-playlist-downloader/releases/latest/download/MusicPlaylistDownloader.exe)** puis double-clique dessus. C'est tout.
 
 - Si Windows affiche « Windows a protégé votre ordinateur » : *Informations complémentaires → Exécuter quand même* (l'exe n'est pas signé).
 - Si Windows demande l'accès réseau : coche **Réseaux privés** (nécessaire pour le téléphone).
 - yt-dlp se met à jour tout seul à chaque lancement.
 
-**Si l'exe est bloqué** (« Une stratégie de contrôle d'application a bloqué ce fichier », à cause du Contrôle intelligent des applications de Windows 11) : prends plutôt **[MusicPlaylistDownloader-Windows.zip](https://github.com/0xim0/music-playlist-downloader/releases/latest/download/MusicPlaylistDownloader-Windows.zip)**, fais clic droit → *Extraire tout*, puis double-clique sur `Lancer.bat`. Python s'installe tout seul s'il manque.
+**Si l'exe est bloqué** (« Une stratégie de contrôle d'application a bloqué ce fichier », à cause du Contrôle intelligent des applications de Windows 11) : prends plutôt **[MusicPlaylistDownloader-Windows.zip](https://github.com/Kudozu/music-playlist-downloader/releases/latest/download/MusicPlaylistDownloader-Windows.zip)**, fais clic droit → *Extraire tout*, puis double-clique sur `Lancer.bat`. Python s'installe tout seul s'il manque.
 
 ### 📱 Téléphone
 
@@ -26,7 +26,7 @@ Télécharge toutes les musiques d'une playlist **YouTube Music** dans le dossie
 **Sans PC (Android) :** installe [Termux](https://f-droid.org/packages/com.termux/) (version F-Droid, pas Play Store), puis colle dans Termux :
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/0xim0/music-playlist-downloader/main/android/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Kudozu/music-playlist-downloader/main/android/install.sh | bash
 ```
 
 Ensuite, tape `playlist` dans Termux pour lancer l'appli. Les musiques vont dans le dossier **Music** du téléphone.

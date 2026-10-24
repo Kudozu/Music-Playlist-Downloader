@@ -1,9 +1,9 @@
 #!/data/data/com.termux/files/usr/bin/bash
 # Installe Music Playlist Downloader sur Android (dans Termux), sans PC.
 # Usage, dans Termux :
-#   curl -fsSL https://raw.githubusercontent.com/0xim0/music-playlist-downloader/main/android/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/Kudozu/music-playlist-downloader/main/android/install.sh | bash
 set -e
-REPO="https://github.com/0xim0/music-playlist-downloader"
+REPO="https://github.com/Kudozu/music-playlist-downloader"
 DIR="$HOME/music-playlist-downloader"
 
 echo "== Installation des paquets (python, ffmpeg, git)…"
