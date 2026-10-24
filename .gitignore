@@ -5,3 +5,6 @@ build/
 dist/
 *.spec
 .claude/
+signing/
+android-app/.gradle/
+android-app/local.properties

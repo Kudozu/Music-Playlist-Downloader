@@ -17,15 +17,19 @@ from pathlib import Path
 FROZEN = getattr(sys, "frozen", False)  # lancé depuis le .exe
 RES_DIR = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))  # fichiers embarqués
 BASE_DIR = Path(sys.executable).parent if FROZEN else Path(__file__).resolve().parent
-DATA_DIR = BASE_DIR / "data"
+# L'appli Android (android-app/) fournit ces dossiers via des variables d'environnement
+APP_MODE = os.environ.get("MPD_APP", "")  # "android" dans l'APK
+DATA_DIR = Path(os.environ.get("MPD_DATA_DIR") or BASE_DIR / "data")
+STATIC_DIR = Path(os.environ.get("MPD_STATIC_DIR") or RES_DIR / "static")
 HISTORY_FILE = DATA_DIR / "history.json"
 SETTINGS_FILE = DATA_DIR / "settings.json"
 PORT = int(os.environ.get("PORT", 5000))
-TERMUX = "com.termux" in os.environ.get("PREFIX", "")
+ANDROID = "ANDROID_ROOT" in os.environ
 ANDROID_STORAGE = Path("/storage/emulated/0")
-DEFAULT_FOLDER = str((ANDROID_STORAGE if TERMUX else Path.home()) / "Music")
+DEFAULT_FOLDER = str((ANDROID_STORAGE if ANDROID else Path.home()) / "Music")
+ON_FILE_SAVED = None  # appelé avec le chemin de chaque musique terminée (Android : indexation)
 
-if FROZEN:
+if FROZEN or APP_MODE == "android":
     import ytdlp_update
     ytdlp_update.use_latest(DATA_DIR / "yt-dlp")
 
@@ -56,8 +60,8 @@ def find_ffmpeg():
 FFMPEG = find_ffmpeg()
 FORMATS = ("mp3", "m4a", "opus") if FFMPEG else ("m4a",)
 
-DATA_DIR.mkdir(exist_ok=True)
-app = Flask(__name__, static_folder=str(RES_DIR / "static"))
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+app = Flask(__name__, static_folder=str(STATIC_DIR))
 
 history_lock = threading.Lock()
 jobs = {}
@@ -185,7 +189,7 @@ def run_job(job: Job):
             todo = entries
         job.total = len(todo)
         if not todo:
-            job.add_log("Rien de nouveau à télécharger 🎉")
+            job.add_log("Rien de nouveau à télécharger")
 
         def hook(d):
             if job.cancel:
@@ -250,14 +254,16 @@ def run_job(job: Job):
                     elif path.suffix == ".m4a":
                         tag_m4a(path, result)
                     job.files.append(path)
+                    if ON_FILE_SAVED:
+                        ON_FILE_SAVED(path)
                     mark_downloaded(playlist_id, job.playlist_title, entry["id"])
-                    job.add_log(f"✔ {path.name}")
+                    job.add_log(f"✓ {path.name}")
                 except Cancelled:
                     raise
                 except Exception as exc:  # une musique indisponible ne bloque pas les autres
                     msg = str(exc).replace("ERROR: ", "")[:200]
                     job.failed.append(job.current)
-                    job.add_log(f"✘ {job.current} : {msg}")
+                    job.add_log(f"✗ {job.current} : {msg}")
 
         job.current = ""
         job.status = "done"
@@ -279,7 +285,7 @@ def index():
 
 @app.get("/api/settings")
 def get_settings():
-    return jsonify({"default_folder": DEFAULT_FOLDER, "formats": FORMATS, **load_json(SETTINGS_FILE, {})})
+    return jsonify({"default_folder": DEFAULT_FOLDER, "formats": FORMATS, "app": APP_MODE, **load_json(SETTINGS_FILE, {})})
 
 
 @app.post("/api/download")
@@ -363,12 +369,12 @@ def browse():
     """Liste les sous-dossiers du PC pour choisir le dossier de destination."""
     path = request.args.get("path") or ""
     if not path:  # racine : dossiers utiles + lecteurs Windows / stockage Android
-        home = ANDROID_STORAGE if TERMUX else Path.home()
+        home = ANDROID_STORAGE if ANDROID else Path.home()
         roots = [str(home / d) for d in ("Music", "Download", "Downloads", "Desktop") if (home / d).is_dir()]
         roots.insert(0, str(home))
         if os.name == "nt":
             roots += [f"{d}:\\" for d in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" if os.path.exists(f"{d}:\\")]
-        elif not TERMUX:
+        elif not ANDROID:
             roots.append("/")
         return jsonify({"path": "", "parent": None, "dirs": [{"name": r, "path": r} for r in roots]})
     p = Path(path)
