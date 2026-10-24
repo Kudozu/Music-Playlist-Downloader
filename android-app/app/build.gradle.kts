@@ -23,7 +23,8 @@ android {
         targetSdk = 35
         versionCode = appVersionCode
         versionName = appVersion
-        ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64") }
+        // Python 3.12 n'existe qu'en 64 bits ; x86_64 sert à l'émulateur de la CI
+        ndk { abiFilters += listOf("arm64-v8a", "x86_64") }
     }
 
     signingConfigs {
