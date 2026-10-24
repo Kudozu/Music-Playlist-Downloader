@@ -7,7 +7,7 @@
   <group android:pivotX="256" android:pivotY="256" android:scaleX="0.6" android:scaleY="0.6">
   <group android:pivotX="256" android:pivotY="256" android:scaleX="0.86" android:scaleY="0.86"
       android:translateX="-34" android:translateY="-30">
-    <path android:fillColor="#FFFFFFFF" android:pathData="M196,136H228V352H196ZM356,104H388V320H356ZM196,136L388,104L388,164L196,196ZM229.78,330.27A58,44 -22 1 0 122.22,373.73A58,44 -22 1 0 229.78,330.27ZM389.78,298.27A58,44 -22 1 0 282.22,341.73A58,44 -22 1 0 389.78,298.27Z"/>
+    <path android:fillColor="#FFFFFFFF" android:pathData="M196,150H228V352H196ZM356,120H388V320H356ZM196,136L388,104L388,164L196,196ZM229.78,330.27A58,44 -22 1 0 122.22,373.73A58,44 -22 1 0 229.78,330.27ZM389.78,298.27A58,44 -22 1 0 282.22,341.73A58,44 -22 1 0 389.78,298.27Z"/>
   </group>
   </group>
 </vector>

@@ -1,60 +1,56 @@
-# 🎵 Music Playlist Downloader
+<p align="center"><img src="static/logo.svg" width="112" alt="Logo"></p>
 
-Télécharge toutes les musiques d'une playlist **YouTube Music** dans le dossier de ton choix, depuis ton **PC** ou ton **téléphone**. Tout tourne en local, sans compte ni nom de domaine.
+<h1 align="center">Music Playlist Downloader</h1>
+
+<p align="center">Télécharge toutes les musiques d'une playlist <b>YouTube Music</b> dans le dossier de ton choix, sur <b>ordinateur</b> ou <b>téléphone</b>. Tout tourne en local, sans compte ni serveur.</p>
 
 - Titre, artiste, album et pochette ajoutés aux fichiers
-- Formats MP3, M4A ou Opus
 - **Seulement les nouvelles musiques** : se souvient de ce qui a déjà été téléchargé pour chaque playlist et ne récupère que les nouveautés. Si l'option est désactivée, toute la playlist est retéléchargée.
-- QR code pour ouvrir l'appli sur le téléphone en un scan
+- Appli Android : « Partager » un lien depuis YouTube Music l'ouvre directement dans l'appli
 
-## ⬇️ Installation
+## Installation
 
-### 💻 Windows
+| Appareil | Fichier | |
+|---|---|---|
+| **Android** | [PlaylistDownloader.apk](https://github.com/Kudozu/music-playlist-downloader/releases/latest/download/PlaylistDownloader.apk) | Appli autonome, pas besoin de PC |
+| **Windows** | [MusicPlaylistDownloader.exe](https://github.com/Kudozu/music-playlist-downloader/releases/latest/download/MusicPlaylistDownloader.exe) | Double-clic, rien d'autre à installer |
+| **Windows** (si l'exe est bloqué) | [MusicPlaylistDownloader-Windows.zip](https://github.com/Kudozu/music-playlist-downloader/releases/latest/download/MusicPlaylistDownloader-Windows.zip) | Extraire, puis double-clic sur `Lancer.bat` |
+| **iPhone** | aucun | Ouvre l'appli du PC en scannant le QR code affiché dans sa page |
 
-**[Télécharger MusicPlaylistDownloader.exe](https://github.com/Kudozu/music-playlist-downloader/releases/latest/download/MusicPlaylistDownloader.exe)** puis double-clique dessus. C'est tout.
+### Android
+
+1. Ouvre le lien de l'APK sur le téléphone et télécharge-le.
+2. Ouvre le fichier. Si Android le demande, autorise ton navigateur à **installer des applis inconnues**. Si Play Protect affiche un avertissement, choisis **Installer quand même** : l'APK n'est pas publié sur le Play Store.
+3. Au premier lancement, autorise **l'accès à tous les fichiers** : c'est ce qui permet d'enregistrer les musiques dans le dossier choisi (Music par défaut). Le premier démarrage prend quelques secondes.
+
+Les téléchargements continuent écran éteint. La notification permet de **quitter** l'appli.
+
+### Windows
 
 - Si Windows affiche « Windows a protégé votre ordinateur » : *Informations complémentaires → Exécuter quand même* (l'exe n'est pas signé).
-- Si Windows demande l'accès réseau : coche **Réseaux privés** (nécessaire pour le téléphone).
-- yt-dlp se met à jour tout seul à chaque lancement.
+- Si Windows indique « Une stratégie de contrôle d'application a bloqué ce fichier » (Contrôle intelligent des applications de Windows 11), prends la version zip. Elle installe Python toute seule s'il manque.
+- Si Windows demande l'accès réseau, coche **Réseaux privés** : c'est ce qui permet d'ouvrir l'appli depuis un téléphone (QR code dans la page).
 
-**Si l'exe est bloqué** (« Une stratégie de contrôle d'application a bloqué ce fichier », à cause du Contrôle intelligent des applications de Windows 11) : prends plutôt **[MusicPlaylistDownloader-Windows.zip](https://github.com/Kudozu/music-playlist-downloader/releases/latest/download/MusicPlaylistDownloader-Windows.zip)**, fais clic droit → *Extraire tout*, puis double-clique sur `Lancer.bat`. Python s'installe tout seul s'il manque.
+yt-dlp se met à jour tout seul, sur PC comme sur Android.
 
-### 📱 Téléphone
+## Utilisation
 
-**Avec le PC :** lance l'appli sur le PC et scanne le QR code en bas de la page (même Wi-Fi). Ensuite, menu ⋮ ou Partager → *Ajouter à l'écran d'accueil*. Le bouton *Tout en ZIP* enregistre les musiques sur le téléphone.
+1. Colle le lien de la playlist (`https://music.youtube.com/playlist?list=...`). Elle doit être publique ou non répertoriée.
+2. Choisis le dossier de destination.
+3. Active ou non **Seulement les nouvelles musiques**, puis appuie sur **Télécharger**.
 
-**Sans PC (Android) :** installe [Termux](https://f-droid.org/packages/com.termux/) (version F-Droid, pas Play Store), puis colle dans Termux :
+**Oublier**, dans *Playlists mémorisées*, remet la mémoire d'une playlist à zéro.
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/Kudozu/music-playlist-downloader/main/android/install.sh | bash
-```
-
-Ensuite, tape `playlist` dans Termux pour lancer l'appli. Les musiques vont dans le dossier **Music** du téléphone.
-
-### 🐍 Depuis le code source (Windows, macOS, Linux)
+## Développement
 
 ```bash
 pip install -r requirements.txt imageio-ffmpeg
 python app.py
 ```
 
-Sous Windows, `Lancer.bat` fait tout ça automatiquement.
-
-## Utilisation
-
-1. Colle le lien de la playlist (`https://music.youtube.com/playlist?list=…`). Elle doit être publique ou non répertoriée.
-2. Choisis le dossier de destination (bouton 📁).
-3. Active ou non **Seulement les nouvelles musiques**, puis clique sur **Télécharger**.
-
-La section *Playlists mémorisées* liste les playlists retenues. **Oublier** remet la mémoire d'une playlist à zéro. La mémoire est stockée dans `data/history.json`, à côté de l'exe.
-
-## Publier une nouvelle version
-
-```bash
-git tag v1.0.1 && git push origin v1.0.1
-```
-
-GitHub Actions construit le `.exe` et crée la release automatiquement.
+- `android-app/` contient l'appli Android : Kotlin + WebView, avec le même `app.py` exécuté par [Chaquopy](https://chaquo.com/chaquopy/).
+- `tools/make_icons.py` génère le logo et toutes les icônes à partir d'une seule définition vectorielle.
+- Pour publier une version : `git tag v1.2.0 && git push origin v1.2.0`. GitHub Actions construit l'exe et l'APK, teste l'APK sur un émulateur Android, puis publie la release.
 
 ---
 

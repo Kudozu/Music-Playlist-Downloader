@@ -84,7 +84,7 @@ jobs:
           KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
           if [ -n "$KEYSTORE_B64" ]; then
-            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.keystore"
+            echo "$KEYSTORE_B64" | tr -d '\r\n ' | base64 -d > "$RUNNER_TEMP/release.keystore"
             export KEYSTORE_FILE="$RUNNER_TEMP/release.keystore"
           fi
           gradle assembleRelease --no-daemon --stacktrace
