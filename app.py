@@ -168,8 +168,11 @@ def run_job(job: Job):
     try:
         job.folder.mkdir(parents=True, exist_ok=True)
         job.add_log("Lecture de la playlist…")
-        with yt_dlp.YoutubeDL({"extract_flat": "in_playlist", "quiet": True, "ignoreerrors": True}) as ydl:
-            info = ydl.extract_info(job.url, download=False)
+        with yt_dlp.YoutubeDL({"extract_flat": "in_playlist", "quiet": True, "no_warnings": True}) as ydl:
+            try:
+                info = ydl.extract_info(job.url, download=False)
+            except yt_dlp.utils.DownloadError as exc:
+                raise RuntimeError(str(exc).replace("ERROR: ", "")) from None
         if not info:
             raise RuntimeError("Impossible de lire cette playlist (lien invalide ou privée ?)")
 
